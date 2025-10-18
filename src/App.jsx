@@ -3,14 +3,12 @@ import Header from './components/Header'
 import UploadZone from './components/UploadZone'
 import LeftPane from './components/LeftPane'
 import Dashboard from './components/Dashboard'
-import ChatPage from './pages/ChatPage'
-import SettingsPage from './pages/SettingsPage'
+import ChatPane from './components/ChatPane'
 import ChartRecommender from './components/ChartRecommender'
 import ConversationalTransformer from './components/ConversationalTransformer'
 import AgentActivityMonitor from './components/AgentActivityMonitor'
 import SelfHealingPanel from './components/SelfHealingPanel'
 import CodeGenerator from './components/CodeGenerator'
-import ErrorBoundary from './components/ErrorBoundary'
 import { analyzeData } from './utils/analyzer'
 import AgentOrchestrator from './agents/AgentOrchestrator'
 import './App.css'
@@ -23,8 +21,6 @@ function App() {
   const [orchestrator] = useState(new AgentOrchestrator())
   const [showAdvancedTools, setShowAdvancedTools] = useState(false)
   const [agentActivity, setAgentActivity] = useState(false)
-  const [showChatPage, setShowChatPage] = useState(false)
-  const [showSettingsPage, setShowSettingsPage] = useState(false)
 
   const handleFileUpload = async (file, data) => {
     setLoading(true)
@@ -68,41 +64,46 @@ function App() {
   // Show settings page if enabled
   if (showSettingsPage) {
     return (
-      <SettingsPage
-        onBack={() => setShowSettingsPage(false)}
-        onSave={(config) => {
-          console.log('AI config saved:', config)
-          setShowSettingsPage(false)
-        }}
-      />
+      <ErrorBoundary>
+        <SettingsPage
+          onBack={() => setShowSettingsPage(false)}
+          onSave={(config) => {
+            console.log('AI config saved:', config)
+            setShowSettingsPage(false)
+          }}
+        />
+      </ErrorBoundary>
     )
   }
 
   // Show chat page if enabled
   if (showChatPage && parsedData) {
     return (
-      <ChatPage
-        data={parsedData}
-        analysis={analysis}
-        datasetName={datasetName}
-        orchestrator={orchestrator}
-        onBack={() => setShowChatPage(false)}
-      />
+      <ErrorBoundary>
+        <ChatPage
+          data={parsedData}
+          analysis={analysis}
+          datasetName={datasetName}
+          orchestrator={orchestrator}
+          onBack={() => setShowChatPage(false)}
+        />
+      </ErrorBoundary>
     )
   }
 
   return (
-    <div className="app">
-      <Header 
-        datasetName={datasetName} 
-        onReset={handleReset}
-        analysis={analysis}
-        onToggleAdvanced={() => setShowAdvancedTools(!showAdvancedTools)}
-        showAdvanced={showAdvancedTools}
-        onOpenChat={() => setShowChatPage(true)}
-        onOpenSettings={() => setShowSettingsPage(true)}
-        showChat={parsedData !== null}
-      />
+    <ErrorBoundary>
+      <div className="app">
+        <Header 
+          datasetName={datasetName} 
+          onReset={handleReset}
+          analysis={analysis}
+          onToggleAdvanced={() => setShowAdvancedTools(!showAdvancedTools)}
+          showAdvanced={showAdvancedTools}
+          onOpenChat={() => setShowChatPage(true)}
+          onOpenSettings={() => setShowSettingsPage(true)}
+          showChat={parsedData !== null}
+        />
       
       {!parsedData ? (
         <UploadZone onFileUpload={handleFileUpload} />

@@ -235,10 +235,8 @@ async function generateIntelligentResponse(query, data, analysis, orchestrator) 
       return `⚠️ **No API Key Found**\n\nPlease add an API key for ${savedProvider} in Settings.`
     }
 
-    // Call real AI API (use relative URL for production compatibility)
-    const apiUrl = window.location.hostname === 'localhost' 
-      ? 'http://localhost:3001/api/ai/chat'
-      : '/api/ai/chat'
+    // Call real AI API (use relative URL with proxy in dev mode)
+    const apiUrl = '/api/ai/chat'
     
     const response = await fetch(apiUrl, {
       method: 'POST',

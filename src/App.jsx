@@ -3,7 +3,7 @@ import Header from './components/Header'
 import UploadZone from './components/UploadZone'
 import LeftPane from './components/LeftPane'
 import Dashboard from './components/Dashboard'
-import ChatPane from './components/ChatPane'
+import ChatPage from './pages/ChatPage'
 import ChartRecommender from './components/ChartRecommender'
 import ConversationalTransformer from './components/ConversationalTransformer'
 import AgentActivityMonitor from './components/AgentActivityMonitor'
@@ -21,6 +21,7 @@ function App() {
   const [orchestrator] = useState(new AgentOrchestrator())
   const [showAdvancedTools, setShowAdvancedTools] = useState(false)
   const [agentActivity, setAgentActivity] = useState(false)
+  const [showChatPage, setShowChatPage] = useState(false)
 
   const handleFileUpload = async (file, data) => {
     setLoading(true)

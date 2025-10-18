@@ -9,7 +9,7 @@ const SUGGESTED_PROMPTS = [
   { icon: Sparkles, text: "What anomalies were detected?", type: "anomalies" }
 ]
 
-function ChatPane({ data, analysis, datasetName }) {
+function ChatPane({ data, analysis, datasetName, orchestrator, onRunAgent }) {
   const [messages, setMessages] = useState([
     {
       role: 'assistant',

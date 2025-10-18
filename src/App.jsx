@@ -7,9 +7,7 @@ import ChatPane from './components/ChatPane'
 import ChartRecommender from './components/ChartRecommender'
 import ConversationalTransformer from './components/ConversationalTransformer'
 import AgentActivityMonitor from './components/AgentActivityMonitor'
-import SelfHealingPanel from './components/SelfHealingPanel'
-import CodeGenerator from './components/CodeGenerator'
-import { analyzeData} from './utils/analyzer'
+import { analyzeData } from './utils/analyzer'
 import AgentOrchestrator from './agents/AgentOrchestrator'
 import './App.css'
 
@@ -110,6 +108,10 @@ function App() {
               <SelfHealingPanel 
                 data={parsedData}
                 onDataFixed={handleTransform}
+              />
+              
+              <CodeGenerator 
+                data={parsedData}
               />
               
               <ChartRecommender 

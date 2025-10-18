@@ -64,46 +64,41 @@ function App() {
   // Show settings page if enabled
   if (showSettingsPage) {
     return (
-      <ErrorBoundary>
-        <SettingsPage
-          onBack={() => setShowSettingsPage(false)}
-          onSave={(config) => {
-            console.log('AI config saved:', config)
-            setShowSettingsPage(false)
-          }}
-        />
-      </ErrorBoundary>
+      <SettingsPage
+        onBack={() => setShowSettingsPage(false)}
+        onSave={(config) => {
+          console.log('AI config saved:', config)
+          setShowSettingsPage(false)
+        }}
+      />
     )
   }
 
   // Show chat page if enabled
   if (showChatPage && parsedData) {
     return (
-      <ErrorBoundary>
-        <ChatPage
-          data={parsedData}
-          analysis={analysis}
-          datasetName={datasetName}
-          orchestrator={orchestrator}
-          onBack={() => setShowChatPage(false)}
-        />
-      </ErrorBoundary>
+      <ChatPage
+        data={parsedData}
+        analysis={analysis}
+        datasetName={datasetName}
+        orchestrator={orchestrator}
+        onBack={() => setShowChatPage(false)}
+      />
     )
   }
 
   return (
-    <ErrorBoundary>
-      <div className="app">
-        <Header 
-          datasetName={datasetName} 
-          onReset={handleReset}
-          analysis={analysis}
-          onToggleAdvanced={() => setShowAdvancedTools(!showAdvancedTools)}
-          showAdvanced={showAdvancedTools}
-          onOpenChat={() => setShowChatPage(true)}
-          onOpenSettings={() => setShowSettingsPage(true)}
-          showChat={parsedData !== null}
-        />
+    <div className="app">
+      <Header 
+        datasetName={datasetName} 
+        onReset={handleReset}
+        analysis={analysis}
+        onToggleAdvanced={() => setShowAdvancedTools(!showAdvancedTools)}
+        showAdvanced={showAdvancedTools}
+        onOpenChat={() => setShowChatPage(true)}
+        onOpenSettings={() => setShowSettingsPage(true)}
+        showChat={parsedData !== null}
+      />
       
       {!parsedData ? (
         <UploadZone onFileUpload={handleFileUpload} />
@@ -151,7 +146,8 @@ function App() {
           )}
         </>
       )}
-    </div>
+      </div>
+    </ErrorBoundary>
   )
 }
 

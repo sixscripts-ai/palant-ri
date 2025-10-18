@@ -26,12 +26,22 @@ function App() {
     setLoading(true)
     setDatasetName(file.name)
     setParsedData(data)
+    setAgentActivity(true)
 
-    // Run analysis
-    setTimeout(() => {
+    // Run multi-agent analysis
+    setTimeout(async () => {
       const analysisResult = analyzeData(data)
+      
+      // Trigger autonomous agents
+      await orchestrator.orchestrate('analyze_quality', data, {
+        userQuery: 'Analyze data quality and provide insights'
+      })
+      
       setAnalysis(analysisResult)
       setLoading(false)
+      
+      // Keep agent activity visible for a bit
+      setTimeout(() => setAgentActivity(false), 3000)
     }, 1500)
   }
 
@@ -40,41 +50,6 @@ function App() {
     setParsedData(null)
     setAnalysis(null)
     setLoading(false)
-    setShowAdvancedTools(false)
-    setAgentActivity(false)
-  }
-
-  const handleTransform = (newData) => {
-    setParsedData(newData)
-    // Re-analyze after transformation
-    const newAnalysis = analyzeData(newData)
-    setAnalysis(newAnalysis)
-  }
-
-  // Show settings page if enabled
-  if (showSettingsPage) {
-    return (
-      <SettingsPage
-        onBack={() => setShowSettingsPage(false)}
-        onSave={(config) => {
-          console.log('AI config saved:', config)
-          setShowSettingsPage(false)
-        }}
-      />
-    )
-  }
-
-  // Show chat page if enabled
-  if (showChatPage && parsedData) {
-    return (
-      <ChatPage
-        data={parsedData}
-        analysis={analysis}
-        datasetName={datasetName}
-        orchestrator={orchestrator}
-        onBack={() => setShowChatPage(false)}
-      />
-    )
   }
 
   return (

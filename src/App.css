@@ -1,0 +1,28 @@
+.app {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(135deg, #0a0e17 0%, #1a1f2e 100%);
+}
+
+.main-layout {
+  display: grid;
+  grid-template-columns: 320px 1fr 400px;
+  gap: 1px;
+  height: calc(100vh - 70px);
+  background: #1a1f2e;
+  overflow: hidden;
+}
+
+@media (max-width: 1400px) {
+  .main-layout {
+    grid-template-columns: 280px 1fr 350px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .main-layout {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr auto;
+  }
+}

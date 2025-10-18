@@ -7,7 +7,7 @@
 
 .main-layout {
   display: grid;
-  grid-template-columns: 320px 1fr;
+  grid-template-columns: 320px 1fr 400px;
   gap: 1px;
   height: calc(100vh - 70px);
   background: #1a1f2e;
@@ -37,7 +37,7 @@
 
 @media (max-width: 1400px) {
   .main-layout {
-    grid-template-columns: 280px 1fr 350px;
+    grid-template-columns: 280px 1fr;
   }
 }
 

@@ -1,29 +1,64 @@
 // AI-powered data analysis engine
 export function analyzeData(data) {
-  const { headers, rows, rowCount, columnCount } = data
+  try {
+    // Validate input data
+    if (!data || !data.headers || !data.rows) {
+      throw new Error('Invalid data format: missing required fields')
+    }
 
-  // Generate executive summary
-  const summary = generateExecutiveSummary(data)
+    const { headers, rows, rowCount, columnCount } = data
 
-  // Detect data quality issues
-  const quality = analyzeDataQuality(data)
+    if (!headers.length || !rows.length) {
+      throw new Error('Dataset is empty')
+    }
 
-  // Generate key insights
-  const insights = generateInsights(data)
+    // Generate executive summary
+    const summary = generateExecutiveSummary(data)
 
-  // Calculate statistics
-  const statistics = calculateStatistics(data)
+    // Detect data quality issues
+    const quality = analyzeDataQuality(data)
 
-  // Generate visualizations
-  const visualizations = generateVisualizations(data)
+    // Generate key insights
+    const insights = generateInsights(data)
 
-  return {
-    summary,
-    quality,
-    insights,
-    statistics,
-    visualizations,
-    timestamp: new Date().toISOString()
+    // Calculate statistics
+    const statistics = calculateStatistics(data)
+
+    // Generate visualizations
+    const visualizations = generateVisualizations(data)
+
+    return {
+      summary,
+      quality,
+      insights,
+      statistics,
+      visualizations,
+      timestamp: new Date().toISOString(),
+      error: null
+    }
+  } catch (error) {
+    console.error('Analysis error:', error)
+    
+    // Return a safe fallback analysis
+    return {
+      summary: `Analysis encountered an error: ${error.message}. Basic metrics are still available.`,
+      quality: { warnings: [error.message], score: 0 },
+      insights: [{
+        title: 'Analysis Error',
+        description: error.message,
+        impact: 'High',
+        confidence: 100,
+        provenance: 'Error handler'
+      }],
+      statistics: {
+        total_records: data?.rowCount || 0,
+        total_columns: data?.columnCount || 0,
+        error: error.message
+      },
+      visualizations: [],
+      timestamp: new Date().toISOString(),
+      error: error.message
+    }
   }
 }
 

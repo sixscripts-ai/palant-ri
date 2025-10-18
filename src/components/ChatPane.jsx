@@ -165,8 +165,52 @@ function MessageContent({ content }) {
   )
 }
 
-function generateResponse(query, data, analysis) {
+async function generateResponse(query, data, analysis, orchestrator) {
   const lowerQuery = query.toLowerCase()
+
+  // Code generation
+  if (lowerQuery.includes('code') || lowerQuery.includes('generate')) {
+    if (orchestrator) {
+      const result = await orchestrator.orchestrate('generate', data, { userQuery: query })
+      const codeAgent = result.results.find(r => r.agent === 'codeGenerator')
+      
+      if (codeAgent?.result?.code) {
+        return `I've generated **Python code** for your request:\n\n\`\`\`python\n${codeAgent.result.code}\n\`\`\`\n\n${codeAgent.result.explanation}\n\nYou can copy this code and run it in your Python environment with the required dependencies: ${codeAgent.result.dependencies.join(', ')}`
+      }
+    }
+    return `Here's a **Python code snippet** to analyze your data:\n\n\`\`\`python\nimport pandas as pd\n\n# Load your data\ndf = pd.DataFrame(data)\n\n# Basic analysis\nprint(df.describe())\nprint(df.info())\n\`\`\`\n\nWould you like me to generate more specific analysis code?`
+  }
+
+  // Semantic search
+  if (lowerQuery.includes('find') || lowerQuery.includes('search')) {
+    if (orchestrator) {
+      const result = await orchestrator.orchestrate('search', data, { userQuery: query })
+      const searchAgent = result.results.find(r => r.agent === 'semanticSearch')
+      
+      if (searchAgent?.result?.matchedColumns?.length > 0) {
+        const matches = searchAgent.result.matchedColumns
+        return `Found **${matches.length} matching columns**:\n\n${matches.map((m, i) => 
+          `**${i + 1}. ${m.column}** (${(m.score * 100).toFixed(0)}% match - ${m.matchType})`
+        ).join('\n')}\n\nWould you like me to analyze any of these columns in detail?`
+      }
+    }
+  }
+
+  // Data healing
+  if (lowerQuery.includes('clean') || lowerQuery.includes('fix') || lowerQuery.includes('quality')) {
+    if (orchestrator) {
+      const result = await orchestrator.orchestrate('analyze_quality', data, { userQuery: query })
+      const healerAgent = result.results.find(r => r.agent === 'dataHealer')
+      
+      if (healerAgent?.result?.issues?.length > 0) {
+        const issues = healerAgent.result.issues
+        return `**Data Quality Analysis** 🏥\n\nFound **${issues.length} issues**:\n\n${issues.slice(0, 5).map((issue, i) => 
+          `**${i + 1}. ${issue.type}** in "${issue.column}"\n   ${issue.details} (${issue.severity} severity)`
+        ).join('\n\n')}\n\n**Confidence:** ${healerAgent.result.confidence}%\n\nI can suggest ${healerAgent.result.strategies?.length || 0} strategies to fix these issues. Would you like to see them?`
+      }
+    }
+    return `Running **data quality analysis**...\n\nI'll check for:\n• Missing values\n• Outliers\n• Type inconsistencies\n• Duplicate records\n\nPlease wait...`
+  }
 
   // Top findings
   if (lowerQuery.includes('top') && (lowerQuery.includes('finding') || lowerQuery.includes('insight'))) {

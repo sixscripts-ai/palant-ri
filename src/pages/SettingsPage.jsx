@@ -30,8 +30,8 @@ const AI_PROVIDERS = [
     name: 'Anthropic Claude',
     models: [
       'claude-sonnet-4-20250514',
-      'claude-3-5-sonnet-20241022',
-      'claude-3-opus-20240229'
+      'claude-4-5-sonnet-20241022',
+      'claude-4.1-opus-20240229'
     ],
     description: 'Advanced reasoning and analysis capabilities',
     getKeyUrl: 'https://console.anthropic.com/settings/keys'

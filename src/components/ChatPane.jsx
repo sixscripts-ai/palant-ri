@@ -1,17 +1,15 @@
 import React, { useState, useRef, useEffect } from 'react'
-import { Send, Bot, User, Sparkles, TrendingUp, BarChart3, PieChart, Code, Wand2, Search } from 'lucide-react'
+import { Send, Bot, User, Sparkles, TrendingUp, BarChart3, PieChart } from 'lucide-react'
 import './ChatPane.css'
 
 const SUGGESTED_PROMPTS = [
   { icon: TrendingUp, text: "What are the top 10 findings?", type: "insights" },
   { icon: BarChart3, text: "Show me trends over time", type: "trends" },
-  { icon: Code, text: "Generate code to analyze this data", type: "code" },
-  { icon: Search, text: "Find all revenue-related columns", type: "semantic" },
-  { icon: Wand2, text: "Clean and fix data quality issues", type: "healing" },
+  { icon: PieChart, text: "Which segments perform best?", type: "segments" },
   { icon: Sparkles, text: "What anomalies were detected?", type: "anomalies" }
 ]
 
-function ChatPane({ data, analysis, datasetName, orchestrator, onRunAgent }) {
+function ChatPane({ data, analysis, datasetName }) {
   const [messages, setMessages] = useState([
     {
       role: 'assistant',
@@ -30,7 +28,7 @@ function ChatPane({ data, analysis, datasetName, orchestrator, onRunAgent }) {
     scrollToBottom()
   }, [messages])
 
-  const handleSend = (text = input) => {
+  const handleSend = async (text = input) => {
     if (!text.trim()) return
 
     const userMessage = { role: 'user', content: text }
@@ -38,9 +36,22 @@ function ChatPane({ data, analysis, datasetName, orchestrator, onRunAgent }) {
     setInput('')
     setIsTyping(true)
 
-    // Simulate AI response
-    setTimeout(() => {
-      const response = generateResponse(text, data, analysis)
+    const textLower = text.toLowerCase()
+
+    // Check if this needs agent orchestration
+    if (textLower.includes('code') || textLower.includes('generate')) {
+      if (onRunAgent) onRunAgent('generate code')
+    } else if (textLower.includes('search') || textLower.includes('find')) {
+      if (onRunAgent) onRunAgent('search')
+    } else if (textLower.includes('clean') || textLower.includes('fix')) {
+      if (onRunAgent) onRunAgent('clean data')
+    } else if (textLower.includes('anomal')) {
+      if (onRunAgent) onRunAgent('detect anomalies')
+    }
+
+    // Simulate AI response with enhanced features
+    setTimeout(async () => {
+      const response = await generateResponse(text, data, analysis, orchestrator)
       setMessages(prev => [...prev, { role: 'assistant', content: response }])
       setIsTyping(false)
     }, 1000 + Math.random() * 1000)

@@ -97,10 +97,8 @@ function SettingsPage({ onBack, onSave }) {
     setValidating(prev => ({ ...prev, [provider]: true }))
 
     try {
-      // Use relative URL for production compatibility
-      const apiUrl = window.location.hostname === 'localhost'
-        ? 'http://localhost:3001/api/ai/validate-key'
-        : '/api/ai/validate-key'
+      // Use relative URL with proxy in dev mode
+      const apiUrl = '/api/ai/validate-key'
       
       const response = await fetch(apiUrl, {
         method: 'POST',
@@ -150,17 +148,17 @@ function SettingsPage({ onBack, onSave }) {
   const currentProvider = AI_PROVIDERS.find(p => p.id === selectedProvider)
 
   return (
-    <div className=\"settings-page\">
-      <div className=\"settings-header\">
-        <button className=\"back-button\" onClick={onBack}>
+    <div className="settings-page">
+      <div className="settings-header">
+        <button className="back-button" onClick={onBack}>
           <ArrowLeft size={20} />
           <span>Back to Dashboard</span>
         </button>
-        <div className=\"settings-title\">
+        <div className="settings-title">
           <Settings size={28} />
           <div>
             <h1>AI Configuration</h1>
-            <p className=\"subtitle\">Configure your AI providers and API keys</p>
+            <p className="subtitle">Configure your AI providers and API keys</p>
           </div>
         </div>
         <button 
@@ -182,30 +180,30 @@ function SettingsPage({ onBack, onSave }) {
         </button>
       </div>
 
-      <div className=\"settings-container\">
-        <div className=\"settings-sidebar\">
+      <div className="settings-container">
+        <div className="settings-sidebar">
           <h3>AI Providers</h3>
-          <div className=\"provider-list\">
+          <div className="provider-list">
             {AI_PROVIDERS.map(provider => (
               <button
                 key={provider.id}
                 className={`provider-item ${selectedProvider === provider.id ? 'active' : ''}`}
                 onClick={() => setSelectedProvider(provider.id)}
               >
-                <div className=\"provider-info\">
-                  <span className=\"provider-name\">{provider.name}</span>
+                <div className="provider-info">
+                  <span className="provider-name">{provider.name}</span>
                   {validationStatus[provider.id] === 'success' && (
-                    <CheckCircle size={16} className=\"status-icon success\" />
+                    <CheckCircle size={16} className="status-icon success" />
                   )}
                   {validationStatus[provider.id] === 'error' && (
-                    <XCircle size={16} className=\"status-icon error\" />
+                    <XCircle size={16} className="status-icon error" />
                   )}
                 </div>
               </button>
             ))}
           </div>
 
-          <div className=\"settings-info\">
+          <div className="settings-info">
             <AlertCircle size={18} />
             <div>
               <h4>Security Notice</h4>
@@ -214,42 +212,42 @@ function SettingsPage({ onBack, onSave }) {
           </div>
         </div>
 
-        <div className=\"settings-content\">
-          <div className=\"provider-details\">
-            <div className=\"provider-header\">
+        <div className="settings-content">
+          <div className="provider-details">
+            <div className="provider-header">
               <h2>{currentProvider.name}</h2>
-              <p className=\"provider-description\">{currentProvider.description}</p>
+              <p className="provider-description">{currentProvider.description}</p>
             </div>
 
-            <div className=\"settings-section\">
-              <label className=\"settings-label\">
+            <div className="settings-section">
+              <label className="settings-label">
                 <Key size={18} />
                 API Key
               </label>
-              <div className=\"api-key-input-group\">
-                <div className=\"input-wrapper\">
+              <div className="api-key-input-group">
+                <div className="input-wrapper">
                   <input
                     type={showKeys[selectedProvider] ? 'text' : 'password'}
-                    className=\"settings-input\"
+                    className="settings-input"
                     placeholder={`Enter your ${currentProvider.name} API key`}
                     value={apiKeys[selectedProvider] || ''}
                     onChange={(e) => handleApiKeyChange(selectedProvider, e.target.value)}
                   />
                   <button
-                    className=\"toggle-visibility\"
+                    className="toggle-visibility"
                     onClick={() => toggleShowKey(selectedProvider)}
                   >
                     {showKeys[selectedProvider] ? <EyeOff size={18} /> : <Eye size={18} />}
                   </button>
                 </div>
                 <button
-                  className=\"validate-button\"
+                  className="validate-button"
                   onClick={() => validateApiKey(selectedProvider)}
                   disabled={!apiKeys[selectedProvider] || validating[selectedProvider]}
                 >
                   {validating[selectedProvider] ? (
                     <>
-                      <div className=\"button-spinner\"></div>
+                      <div className="button-spinner"></div>
                       Validating...
                     </>
                   ) : (
@@ -262,30 +260,30 @@ function SettingsPage({ onBack, onSave }) {
               </div>
               <a 
                 href={currentProvider.getKeyUrl} 
-                target=\"_blank\" 
-                rel=\"noopener noreferrer\"
-                className=\"get-key-link\"
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="get-key-link"
               >
                 Get your {currentProvider.name} API key →
               </a>
               {validationStatus[selectedProvider] === 'success' && (
-                <div className=\"validation-message success\">
+                <div className="validation-message success">
                   <CheckCircle size={16} />
                   API key is valid and working!
                 </div>
               )}
               {validationStatus[selectedProvider] === 'error' && (
-                <div className=\"validation-message error\">
+                <div className="validation-message error">
                   <XCircle size={16} />
                   Invalid API key. Please check and try again.
                 </div>
               )}
             </div>
 
-            <div className=\"settings-section\">
-              <label className=\"settings-label\">Model Selection</label>
+            <div className="settings-section">
+              <label className="settings-label">Model Selection</label>
               <select
-                className=\"settings-select\"
+                className="settings-select"
                 value={selectedModels[selectedProvider] || currentProvider.models[0]}
                 onChange={(e) => handleModelChange(selectedProvider, e.target.value)}
               >
@@ -295,14 +293,14 @@ function SettingsPage({ onBack, onSave }) {
                   </option>
                 ))}
               </select>
-              <p className=\"settings-hint\">
+              <p className="settings-hint">
                 Choose the model that best fits your needs. Larger models provide better quality but may be slower.
               </p>
             </div>
 
-            <div className=\"settings-section\">
+            <div className="settings-section">
               <h3>Model Information</h3>
-              <div className=\"model-info\">
+              <div className="model-info">
                 {selectedProvider === 'perplexity' && (
                   <>
                     <p><strong>Sonar Large:</strong> Best balance of speed and quality with web search</p>

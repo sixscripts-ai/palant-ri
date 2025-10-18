@@ -41,7 +41,7 @@ RUN echo '#!/bin/sh' > /app/start.sh && \
     echo 'echo "📡 Backend API running on port 3001"' >> /app/start.sh && \
     echo 'sleep 2' >> /app/start.sh && \
     echo 'echo "🌐 Starting Frontend Server..."' >> /app/start.sh && \
-    echo 'serve -s dist -l 3000 --cors' >> /app/start.sh && \
+    echo 'serve -s dist -l 7777 --cors' >> /app/start.sh && \
     echo 'wait $SERVER_PID' >> /app/start.sh && \
     chmod +x /app/start.sh
 
@@ -49,7 +49,7 @@ RUN echo '#!/bin/sh' > /app/start.sh && \
 HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
   CMD node -e "require('http').get('http://localhost:3001/health', (r) => { process.exit(r.statusCode === 200 ? 0 : 1); });"
 
-EXPOSE 3000
+EXPOSE 7777
 EXPOSE 3001
 
 CMD ["/app/start.sh"]

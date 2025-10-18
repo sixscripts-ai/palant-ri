@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
-import { Lock, Upload, Download, Trash2, FileSpreadsheet, Sparkles } from 'lucide-react'
+import { Lock, Upload, Download, Trash2, FileSpreadsheet } from 'lucide-react'
 import './Header.css'
 
-function Header({ datasetName, onReset, analysis, onToggleAdvanced, showAdvanced }) {
+function Header({ datasetName, onReset, analysis }) {
   const [ttl, setTtl] = useState(30)
 
   const handleExport = () => {
@@ -53,6 +53,13 @@ function Header({ datasetName, onReset, analysis, onToggleAdvanced, showAdvanced
             <div className="ttl-indicator">
               <span>TTL: {ttl} days</span>
             </div>
+            <button 
+              className={`header-btn ${showAdvanced ? 'active' : ''}`}
+              onClick={onToggleAdvanced}
+            >
+              <Sparkles size={18} />
+              <span>AI Tools</span>
+            </button>
             <button className="header-btn" onClick={handleExport} disabled={!analysis}>
               <Download size={18} />
               <span>Export</span>

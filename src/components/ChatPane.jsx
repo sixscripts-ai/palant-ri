@@ -1,15 +1,17 @@
 import React, { useState, useRef, useEffect } from 'react'
-import { Send, Bot, User, Sparkles, TrendingUp, BarChart3, PieChart } from 'lucide-react'
+import { Send, Bot, User, Sparkles, TrendingUp, BarChart3, PieChart, Code, Wand2, Search } from 'lucide-react'
 import './ChatPane.css'
 
 const SUGGESTED_PROMPTS = [
   { icon: TrendingUp, text: "What are the top 10 findings?", type: "insights" },
   { icon: BarChart3, text: "Show me trends over time", type: "trends" },
-  { icon: PieChart, text: "Which segments perform best?", type: "segments" },
+  { icon: Code, text: "Generate code to analyze this data", type: "code" },
+  { icon: Search, text: "Find all revenue-related columns", type: "semantic" },
+  { icon: Wand2, text: "Clean and fix data quality issues", type: "healing" },
   { icon: Sparkles, text: "What anomalies were detected?", type: "anomalies" }
 ]
 
-function ChatPane({ data, analysis, datasetName }) {
+function ChatPane({ data, analysis, datasetName, orchestrator, onRunAgent }) {
   const [messages, setMessages] = useState([
     {
       role: 'assistant',

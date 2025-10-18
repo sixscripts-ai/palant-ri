@@ -20,7 +20,7 @@ const AI_PROVIDERS = [
     models: [
       'gemini-2.0-flash-exp',
       'gemini-exp-1206',
-      'gemini-1.5-pro-latest'
+      'gemini-2.5-pro-latest'
     ],
     description: 'Google\'s most capable multimodal AI',
     getKeyUrl: 'https://aistudio.google.com/app/apikey'

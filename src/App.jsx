@@ -7,7 +7,6 @@ import ChatPane from './components/ChatPane'
 import ChartRecommender from './components/ChartRecommender'
 import ConversationalTransformer from './components/ConversationalTransformer'
 import AgentActivityMonitor from './components/AgentActivityMonitor'
-import SelfHealingPanel from './components/SelfHealingPanel'
 import { analyzeData } from './utils/analyzer'
 import AgentOrchestrator from './agents/AgentOrchestrator'
 import './App.css'
@@ -106,6 +105,11 @@ function App() {
 
           {showAdvancedTools && (
             <div className="advanced-tools-section">
+              <SelfHealingPanel 
+                data={parsedData}
+                onDataFixed={handleTransform}
+              />
+              
               <ChartRecommender 
                 data={parsedData}
                 analysis={analysis}

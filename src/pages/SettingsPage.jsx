@@ -97,7 +97,12 @@ function SettingsPage({ onBack, onSave }) {
     setValidating(prev => ({ ...prev, [provider]: true }))
 
     try {
-      const response = await fetch('http://localhost:3001/api/ai/validate-key', {
+      // Use relative URL for production compatibility
+      const apiUrl = window.location.hostname === 'localhost'
+        ? 'http://localhost:3001/api/ai/validate-key'
+        : '/api/ai/validate-key'
+      
+      const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

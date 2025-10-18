@@ -1,0 +1,476 @@
+.chart-recommender {
+  background: rgba(15, 23, 42, 0.5);
+  border: 1px solid rgba(96, 165, 250, 0.2);
+  border-radius: 12px;
+  padding: 24px;
+  margin: 20px 0;
+}
+
+.recommender-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #60a5fa;
+}
+
+.header-left h3 {
+  margin: 0;
+  font-size: 20px;
+  color: #e4e7eb;
+}
+
+.header-left p {
+  margin: 4px 0 0 0;
+  font-size: 14px;
+  color: #94a3b8;
+}
+
+.mode-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: rgba(96, 165, 250, 0.1);
+  color: #60a5fa;
+  border: 1px solid rgba(96, 165, 250, 0.3);
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.mode-toggle:hover {
+  background: rgba(96, 165, 250, 0.2);
+}
+
+.mode-toggle.active {
+  background: rgba(96, 165, 250, 0.3);
+}
+
+.recommendations-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+  gap: 20px;
+}
+
+.recommendation-card {
+  background: rgba(30, 41, 59, 0.5);
+  border: 1px solid rgba(96, 165, 250, 0.2);
+  border-radius: 10px;
+  padding: 20px;
+  transition: all 0.3s;
+}
+
+.recommendation-card:hover {
+  border-color: rgba(96, 165, 250, 0.5);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  transform: translateY(-2px);
+}
+
+.card-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.chart-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: rgba(96, 165, 250, 0.1);
+  border: 1px solid rgba(96, 165, 250, 0.3);
+  border-radius: 8px;
+  color: #60a5fa;
+  flex-shrink: 0;
+}
+
+.card-title {
+  flex: 1;
+}
+
+.card-title h4 {
+  margin: 0 0 6px 0;
+  font-size: 16px;
+  color: #e4e7eb;
+}
+
+.confidence-badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.confidence-badge.level-high {
+  background: rgba(52, 211, 153, 0.15);
+  color: #34d399;
+  border: 1px solid rgba(52, 211, 153, 0.3);
+}
+
+.confidence-badge.level-medium {
+  background: rgba(251, 191, 36, 0.15);
+  color: #fbbf24;
+  border: 1px solid rgba(251, 191, 36, 0.3);
+}
+
+.confidence-badge.level-low {
+  background: rgba(148, 163, 184, 0.15);
+  color: #94a3b8;
+  border: 1px solid rgba(148, 163, 184, 0.3);
+}
+
+.chart-preview {
+  height: 180px;
+  margin-bottom: 16px;
+  background: rgba(15, 23, 42, 0.5);
+  border: 1px solid rgba(96, 165, 250, 0.1);
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.recommendation-reason {
+  color: #94a3b8;
+  font-size: 14px;
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+
+.card-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(96, 165, 250, 0.1);
+}
+
+.meta-item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+}
+
+.meta-label {
+  color: #64748b;
+  font-weight: 500;
+}
+
+.meta-value {
+  color: #e4e7eb;
+}
+
+.expanded-details {
+  margin-bottom: 16px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(96, 165, 250, 0.1);
+}
+
+.detail-section {
+  margin-bottom: 16px;
+}
+
+.detail-section:last-child {
+  margin-bottom: 0;
+}
+
+.detail-section h5 {
+  margin: 0 0 8px 0;
+  font-size: 14px;
+  color: #60a5fa;
+  font-weight: 600;
+}
+
+.detail-section p {
+  margin: 0;
+  color: #94a3b8;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.detail-section ul {
+  margin: 0;
+  padding-left: 20px;
+  color: #94a3b8;
+  font-size: 13px;
+}
+
+.detail-section li {
+  margin-bottom: 6px;
+  line-height: 1.5;
+}
+
+.card-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.expand-btn,
+.add-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.expand-btn {
+  background: rgba(100, 116, 139, 0.1);
+  color: #94a3b8;
+  border: 1px solid rgba(100, 116, 139, 0.3);
+}
+
+.expand-btn:hover {
+  background: rgba(100, 116, 139, 0.2);
+}
+
+.add-btn {
+  background: rgba(96, 165, 250, 0.15);
+  color: #60a5fa;
+  border: 1px solid rgba(96, 165, 250, 0.3);
+}
+
+.add-btn:hover {
+  background: rgba(96, 165, 250, 0.25);
+}
+
+/* Dashboard Builder */
+
+.dashboard-builder {
+  min-height: 400px;
+}
+
+.builder-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(96, 165, 250, 0.2);
+}
+
+.layout-selector {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.layout-selector span {
+  color: #94a3b8;
+  font-size: 14px;
+  font-weight: 500;
+  margin-right: 4px;
+}
+
+.layout-selector button {
+  padding: 8px 16px;
+  background: rgba(30, 41, 59, 0.5);
+  color: #94a3b8;
+  border: 1px solid rgba(96, 165, 250, 0.2);
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.layout-selector button:hover {
+  background: rgba(30, 41, 59, 0.8);
+}
+
+.layout-selector button.active {
+  background: rgba(96, 165, 250, 0.2);
+  color: #60a5fa;
+  border-color: rgba(96, 165, 250, 0.5);
+}
+
+.dashboard-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.export-btn,
+.share-btn {
+  padding: 8px 16px;
+  background: rgba(96, 165, 250, 0.1);
+  color: #60a5fa;
+  border: 1px solid rgba(96, 165, 250, 0.3);
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.export-btn:hover,
+.share-btn:hover {
+  background: rgba(96, 165, 250, 0.2);
+}
+
+.empty-dashboard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  color: #64748b;
+  text-align: center;
+}
+
+.empty-dashboard svg {
+  margin-bottom: 16px;
+  opacity: 0.5;
+}
+
+.empty-dashboard h4 {
+  margin: 0 0 8px 0;
+  color: #94a3b8;
+  font-size: 18px;
+}
+
+.empty-dashboard p {
+  margin: 0 0 24px 0;
+  color: #64748b;
+}
+
+.quick-add-suggestions {
+  margin-top: 24px;
+}
+
+.quick-add-suggestions h5 {
+  margin: 0 0 12px 0;
+  color: #94a3b8;
+  font-size: 14px;
+}
+
+.suggestion-buttons {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.suggestion-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  background: rgba(96, 165, 250, 0.1);
+  color: #60a5fa;
+  border: 1px solid rgba(96, 165, 250, 0.3);
+  border-radius: 6px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.suggestion-btn:hover {
+  background: rgba(96, 165, 250, 0.2);
+}
+
+.dashboard-canvas {
+  display: grid;
+  gap: 20px;
+}
+
+.dashboard-canvas.layout-grid {
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+}
+
+.dashboard-canvas.layout-rows {
+  grid-template-columns: 1fr;
+}
+
+.dashboard-canvas.layout-columns {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.dashboard-chart {
+  position: relative;
+  background: rgba(30, 41, 59, 0.5);
+  border: 1px solid rgba(96, 165, 250, 0.2);
+  border-radius: 10px;
+  padding: 20px;
+  min-height: 300px;
+}
+
+.dashboard-chart h4 {
+  margin: 0 0 16px 0;
+  color: #e4e7eb;
+  font-size: 16px;
+}
+
+.chart-controls {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 10;
+}
+
+.remove-btn {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(248, 113, 113, 0.1);
+  color: #f87171;
+  border: 1px solid rgba(248, 113, 113, 0.3);
+  border-radius: 6px;
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.remove-btn:hover {
+  background: rgba(248, 113, 113, 0.2);
+}
+
+.chart-container-dashboard {
+  height: 250px;
+}
+
+@media (max-width: 1200px) {
+  .recommendations-grid {
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  }
+  
+  .dashboard-canvas.layout-columns {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .recommendations-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .dashboard-canvas.layout-grid,
+  .dashboard-canvas.layout-columns {
+    grid-template-columns: 1fr;
+  }
+  
+  .builder-controls {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+}

@@ -4,7 +4,11 @@ import UploadZone from './components/UploadZone'
 import LeftPane from './components/LeftPane'
 import Dashboard from './components/Dashboard'
 import ChatPane from './components/ChatPane'
+import ChartRecommender from './components/ChartRecommender'
+import ConversationalTransformer from './components/ConversationalTransformer'
+import AgentActivityMonitor from './components/AgentActivityMonitor'
 import { analyzeData } from './utils/analyzer'
+import AgentOrchestrator from './agents/AgentOrchestrator'
 import './App.css'
 
 function App() {
@@ -12,17 +16,30 @@ function App() {
   const [parsedData, setParsedData] = useState(null)
   const [analysis, setAnalysis] = useState(null)
   const [loading, setLoading] = useState(false)
+  const [orchestrator] = useState(new AgentOrchestrator())
+  const [showAdvancedTools, setShowAdvancedTools] = useState(false)
+  const [agentActivity, setAgentActivity] = useState(false)
 
   const handleFileUpload = async (file, data) => {
     setLoading(true)
     setDatasetName(file.name)
     setParsedData(data)
+    setAgentActivity(true)
 
-    // Simulate AI analysis
-    setTimeout(() => {
+    // Run multi-agent analysis
+    setTimeout(async () => {
       const analysisResult = analyzeData(data)
+      
+      // Trigger autonomous agents
+      await orchestrator.orchestrate('analyze_quality', data, {
+        userQuery: 'Analyze data quality and provide insights'
+      })
+      
       setAnalysis(analysisResult)
       setLoading(false)
+      
+      // Keep agent activity visible for a bit
+      setTimeout(() => setAgentActivity(false), 3000)
     }, 1500)
   }
 
@@ -31,6 +48,15 @@ function App() {
     setParsedData(null)
     setAnalysis(null)
     setLoading(false)
+    setShowAdvancedTools(false)
+    setAgentActivity(false)
+  }
+
+  const handleTransform = (newData) => {
+    setParsedData(newData)
+    // Re-analyze after transformation
+    const newAnalysis = analyzeData(newData)
+    setAnalysis(newAnalysis)
   }
 
   return (
@@ -39,28 +65,58 @@ function App() {
         datasetName={datasetName} 
         onReset={handleReset}
         analysis={analysis}
+        onToggleAdvanced={() => setShowAdvancedTools(!showAdvancedTools)}
+        showAdvanced={showAdvancedTools}
       />
       
       {!parsedData ? (
         <UploadZone onFileUpload={handleFileUpload} />
       ) : (
-        <div className="main-layout">
-          <LeftPane 
-            data={parsedData} 
-            analysis={analysis}
-            loading={loading}
+        <>
+          <AgentActivityMonitor 
+            orchestrator={orchestrator}
+            isActive={agentActivity}
           />
-          <Dashboard 
-            data={parsedData} 
-            analysis={analysis}
-            loading={loading}
-          />
-          <ChatPane 
-            data={parsedData}
-            analysis={analysis}
-            datasetName={datasetName}
-          />
-        </div>
+          
+          <div className="main-layout">
+            <LeftPane 
+              data={parsedData} 
+              analysis={analysis}
+              loading={loading}
+            />
+            <Dashboard 
+              data={parsedData} 
+              analysis={analysis}
+              loading={loading}
+            />
+            <ChatPane 
+              data={parsedData}
+              analysis={analysis}
+              datasetName={datasetName}
+              orchestrator={orchestrator}
+              onRunAgent={(task) => {
+                setAgentActivity(true)
+                orchestrator.orchestrate(task, parsedData).then(() => {
+                  setTimeout(() => setAgentActivity(false), 2000)
+                })
+              }}
+            />
+          </div>
+
+          {showAdvancedTools && (
+            <div className="advanced-tools-section">
+              <ChartRecommender 
+                data={parsedData}
+                analysis={analysis}
+              />
+              
+              <ConversationalTransformer 
+                data={parsedData}
+                onTransform={handleTransform}
+              />
+            </div>
+          )}
+        </>
       )}
     </div>
   )

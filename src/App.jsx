@@ -52,7 +52,6 @@ function App() {
     setLoading(false)
     setShowAdvancedTools(false)
     setAgentActivity(false)
-    setShowChatPage(false)
   }
 
   const handleTransform = (newData) => {
@@ -60,6 +59,19 @@ function App() {
     // Re-analyze after transformation
     const newAnalysis = analyzeData(newData)
     setAnalysis(newAnalysis)
+  }
+
+  // Show chat page if enabled
+  if (showChatPage && parsedData) {
+    return (
+      <ChatPage
+        data={parsedData}
+        analysis={analysis}
+        datasetName={datasetName}
+        orchestrator={orchestrator}
+        onBack={() => setShowChatPage(false)}
+      />
+    )
   }
 
   return (
@@ -70,6 +82,8 @@ function App() {
         analysis={analysis}
         onToggleAdvanced={() => setShowAdvancedTools(!showAdvancedTools)}
         showAdvanced={showAdvancedTools}
+        onOpenChat={() => setShowChatPage(true)}
+        showChat={parsedData !== null}
       />
       
       {!parsedData ? (
@@ -91,18 +105,6 @@ function App() {
               data={parsedData} 
               analysis={analysis}
               loading={loading}
-            />
-            <ChatPane 
-              data={parsedData}
-              analysis={analysis}
-              datasetName={datasetName}
-              orchestrator={orchestrator}
-              onRunAgent={(task) => {
-                setAgentActivity(true)
-                orchestrator.orchestrate(task, parsedData).then(() => {
-                  setTimeout(() => setAgentActivity(false), 2000)
-                })
-              }}
             />
           </div>
 

@@ -23,7 +23,7 @@ function App() {
   const [orchestrator] = useState(new AgentOrchestrator())
   const [showAdvancedTools, setShowAdvancedTools] = useState(false)
   const [agentActivity, setAgentActivity] = useState(false)
-  const [showChatPage, setShowChatPage] = useState(false)
+  const [showChatPage, setShowChatPage] = useState(true)
   const [showSettingsPage, setShowSettingsPage] = useState(false)
 
   const handleFileUpload = async (file, data) => {

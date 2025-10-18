@@ -28,6 +28,9 @@ RUN echo 'server { \
     root /usr/share/nginx/html; \
     index index.html; \
     \
+    # Remove default X-Frame-Options header \
+    add_header X-Frame-Options "" always; \
+    \
     location / { \
         try_files $uri $uri/ /index.html; \
     } \

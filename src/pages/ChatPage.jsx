@@ -217,6 +217,61 @@ function MessageContent({ content }) {
 }
 
 async function generateIntelligentResponse(query, data, analysis, orchestrator) {
+  // Check if AI is configured
+  const savedKeys = localStorage.getItem('buddy_ai_keys')
+  const savedProvider = localStorage.getItem('buddy_ai_provider')
+  const savedModels = localStorage.getItem('buddy_ai_models')
+
+  if (!savedKeys || !savedProvider) {
+    return `⚠️ **AI Not Configured**\n\nPlease configure your AI provider in Settings to enable intelligent responses.\n\nClick the ⚙️ Settings button in the header to set up your API key.`
+  }
+
+  try {
+    const apiKeys = JSON.parse(savedKeys)
+    const models = savedModels ? JSON.parse(savedModels) : {}
+    const apiKey = apiKeys[savedProvider]
+
+    if (!apiKey) {
+      return `⚠️ **No API Key Found**\n\nPlease add an API key for ${savedProvider} in Settings.`
+    }
+
+    // Call real AI API
+    const response = await fetch('http://localhost:3001/api/ai/chat', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        message: query,
+        provider: savedProvider,
+        apiKey,
+        model: models[savedProvider],
+        data: {
+          name: data.name,
+          rowCount: data.rowCount,
+          columnCount: data.columnCount,
+          headers: data.headers,
+          rows: data.rows?.slice(0, 5) // Send sample rows
+        },
+        context: analysis ? `Current analysis insights: ${JSON.stringify(analysis.insights?.slice(0, 3))}` : null,
+        stream: false
+      })
+    })
+
+    if (!response.ok) {
+      const error = await response.json()
+      throw new Error(error.error || 'Failed to get AI response')
+    }
+
+    const result = await response.json()
+    return result.response
+
+  } catch (error) {
+    console.error('AI API error:', error)
+    return `❌ **Error Getting AI Response**\n\n${error.message}\n\nPlease check your API key configuration in Settings.`
+  }
+
+  // Fallback to basic responses if AI fails
   const lowerQuery = query.toLowerCase()
 
   // Code generation requests

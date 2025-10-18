@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
-import { Lock, Upload, Download, Trash2, FileSpreadsheet, Sparkles } from 'lucide-react'
+import { Lock, Upload, Download, Trash2, FileSpreadsheet, Sparkles, MessageCircle, Settings } from 'lucide-react'
 import './Header.css'
 
-function Header({ datasetName, onReset, analysis, onToggleAdvanced, showAdvanced }) {
+function Header({ datasetName, onReset, analysis, onToggleAdvanced, showAdvanced, onOpenChat, showChat, onOpenSettings }) {
   const [ttl, setTtl] = useState(30)
 
   const handleExport = () => {

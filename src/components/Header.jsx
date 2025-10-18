@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
-import { Lock, Upload, Download, Trash2, FileSpreadsheet, Sparkles, MessageCircle } from 'lucide-react'
+import { Lock, Upload, Download, Trash2, FileSpreadsheet, Sparkles } from 'lucide-react'
 import './Header.css'
 
-function Header({ datasetName, onReset, analysis, onToggleAdvanced, showAdvanced, onOpenChat, showChat }) {
+function Header({ datasetName, onReset, analysis, onToggleAdvanced, showAdvanced }) {
   const [ttl, setTtl] = useState(30)
 
   const handleExport = () => {
@@ -53,6 +53,15 @@ function Header({ datasetName, onReset, analysis, onToggleAdvanced, showAdvanced
             <div className="ttl-indicator">
               <span>TTL: {ttl} days</span>
             </div>
+            {showChat && (
+              <button 
+                className="header-btn chat-btn"
+                onClick={onOpenChat}
+              >
+                <MessageCircle size={18} />
+                <span>AI Chat</span>
+              </button>
+            )}
             <button 
               className={`header-btn ${showAdvanced ? 'active' : ''}`}
               onClick={onToggleAdvanced}

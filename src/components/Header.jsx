@@ -48,6 +48,14 @@ function Header({ datasetName, onReset, analysis, onToggleAdvanced, showAdvanced
       )}
 
       <div className="header-right">
+        <button 
+          className="header-btn settings-btn"
+          onClick={onOpenSettings}
+          title="Configure AI Settings"
+        >
+          <Settings size={18} />
+          <span>Settings</span>
+        </button>
         {datasetName && (
           <>
             <div className="ttl-indicator">

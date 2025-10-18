@@ -15,9 +15,19 @@
 }
 
 .advanced-tools-section {
-  padding: 0 20px 20px 20px;
-  max-width: 1600px;
-  margin: 0 auto;
+  padding: 20px;
+  background: #0a0e17;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  max-width: 100%;
+  margin: 0;
+}
+
+.advanced-tools-section > * {
+  background: #1a1f2e;
+  border-radius: 12px;
+  overflow: hidden;
 }
 
 .header-btn.active {

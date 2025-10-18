@@ -57,62 +57,25 @@ function App() {
       <Header 
         datasetName={datasetName} 
         onReset={handleReset}
-        analysis={analysis}
-        onToggleAdvanced={() => setShowAdvancedTools(!showAdvancedTools)}
-        showAdvanced={showAdvancedTools}
-        onOpenChat={() => setShowChatPage(true)}
-        onOpenSettings={() => setShowSettingsPage(true)}
-        showChat={parsedData !== null}
       />
       
       {!parsedData ? (
         <UploadZone onFileUpload={handleFileUpload} />
       ) : (
-        <>
-          <AgentActivityMonitor 
-            orchestrator={orchestrator}
-            isActive={agentActivity}
+        <div className="main-layout">
+          <LeftPane 
+            data={parsedData} 
+            analysis={analysis}
+            loading={loading}
           />
-          
-          <div className="main-layout">
-            <LeftPane 
-              data={parsedData} 
-              analysis={analysis}
-              loading={loading}
-            />
-            <Dashboard 
-              data={parsedData} 
-              analysis={analysis}
-              loading={loading}
-            />
-          </div>
-
-          {showAdvancedTools && (
-            <div className="advanced-tools-section">
-              <SelfHealingPanel 
-                data={parsedData}
-                onDataFixed={handleTransform}
-              />
-              
-              <CodeGenerator 
-                data={parsedData}
-              />
-              
-              <ChartRecommender 
-                data={parsedData}
-                analysis={analysis}
-              />
-              
-              <ConversationalTransformer 
-                data={parsedData}
-                onTransform={handleTransform}
-              />
-            </div>
-          )}
-        </>
+          <Dashboard 
+            data={parsedData} 
+            analysis={analysis}
+            loading={loading}
+          />
+        </div>
       )}
-      </div>
-    </ErrorBoundary>
+    </div>
   )
 }
 

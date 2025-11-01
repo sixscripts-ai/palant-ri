@@ -2,6 +2,12 @@
 
 An advanced AI-powered data analysis platform that helps you understand your spreadsheet data through conversation.
 
+## 🌐 Live Demo
+
+**GitHub Pages**: [https://sixscripts-ai.github.io/palant-ri/](https://sixscripts-ai.github.io/palant-ri/)
+
+> **Note**: To enable the live site, go to [Repository Settings → Pages](https://github.com/sixscripts-ai/palant-ri/settings/pages) and select "GitHub Actions" as the deployment source.
+
 ## 🚀 Quick Start
 
 ### Prerequisites
